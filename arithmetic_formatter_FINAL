@@ -1,0 +1,79 @@
+def arithmetic_arranger(problems, show_answers=False):
+
+    number_one_list = []
+    number_two_list = []
+    operator_list = []
+    top_line = ""
+    mid_line = ""
+    dash_line = ""
+    bottom_line = ""
+
+    if len(problems) > 5:
+        return 'Error: Too many problems.'
+
+    for problem in problems:
+        problem_list = problem.split(" ")
+        if len(problem_list[0]) > 4:
+            return 'Error: Numbers cannot be more than four digits.'
+        elif not problem_list[0].isdigit():
+            return 'Error: Numbers must only contain digits.'
+        else:
+            number_one_list.append(problem_list[0])
+        if len(problem_list[2]) > 4:
+            return 'Error: Numbers cannot be more than four digits.'
+        elif not problem_list[2].isdigit():
+            return 'Error: Numbers must only contain digits.'
+        else:
+            number_two_list.append(problem_list[2])
+        if problem_list[1] not in ("+", "-"):
+            return "Error: Operator must be '+' or '-'."
+        else:
+            operator_list.append(problem_list[1])
+
+    for i in range(len(problems)):
+        num_one = number_one_list[i]
+        num_two = number_two_list[i]
+        operator = operator_list[i]
+        if operator == "+":
+            total_number = int(num_one) + int(num_two)
+        if operator == "-":
+            total_number = int(num_one) - int(num_two)
+
+        # creating dash line
+        dash_number = max(len(num_one), len(num_two), ) + 2
+        if dash_number > 6:
+            dash_number = 6
+        dash_sequence = "-"*dash_number + " "*4
+        dash_line += dash_sequence
+
+        # creating top line
+        space_one_number = dash_number - len(num_one)
+        space_one_sequence = " "*space_one_number
+
+        top_line += space_one_sequence + num_one + " "*4
+
+        # creating mid line
+        space_two_number = dash_number - len(num_two) - 1
+        space_two_sequence = " "*space_two_number
+
+        mid_line += operator + space_two_sequence + num_two + " "*4
+
+        # creating bottom line
+        space_total_number = dash_number - len(str(total_number))
+        space_total_sequence = " "*space_total_number
+
+        bottom_line += space_total_sequence + str(total_number) + " "*4
+    
+    dash_line = dash_line.rstrip(" ")
+    top_line = top_line.rstrip(" ")
+    mid_line = mid_line.rstrip(" ")
+    bottom_line = bottom_line.rstrip(" ")
+    
+    if show_answers:
+        final_string = f"{top_line}\n{mid_line}\n{dash_line}\n{bottom_line}"
+    else:
+        final_string = f"{top_line}\n{mid_line}\n{dash_line}"
+    return final_string
+
+print(f'\n{arithmetic_arranger(["3 + 855", "988 + 40"], True)}')
+
